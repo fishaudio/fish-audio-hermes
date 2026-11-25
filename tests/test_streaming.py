@@ -94,6 +94,18 @@ def test_s1_model_adapts_tags_and_empty_result_makes_no_request(monkeypatch):
         assert json.loads(route.calls.last.request.content)["text"] == "(excited) Hi there."
 
 
+def test_s3_pro_stream_adapts_parenthetical_tags(monkeypatch):
+    cfg = config()
+    cfg["tts"]["fish-audio"]["model"] = "s3-pro"
+    monkeypatch.setattr(settings, "_config", lambda: cfg)
+    with respx.mock(assert_all_called=True) as mock:
+        route = mock.post("https://api.fish.audio/v1/tts").respond(content=b"\x00\x00")
+        speak("(happy) Hi there. (sad) Bye.")
+        request = route.calls.last.request
+        assert request.headers["model"] == "s3-pro"
+        assert json.loads(request.content)["text"] == "[happy] Hi there. [sad] Bye."
+
+
 @pytest.fixture
 def sleeps(monkeypatch):
     delays = []

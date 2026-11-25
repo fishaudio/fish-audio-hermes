@@ -91,7 +91,7 @@ def _english_errors():
 @pytest.mark.parametrize("status", [None, 400, 401, 402, 403, 404, 413, 415, 429, 500, 503])
 @pytest.mark.parametrize("body", [b"", b'{"code":"invalid_api_key"}', b'{"code":"quota"}', b'{"code":"voice_not_found"}',
                                   b'{"code":"custom_code"}', b'{"message":"model not found"}'])
-@pytest.mark.parametrize("model", ["s2.1-pro", "s2.1-pro-free", "transcribe-1-pro"])
+@pytest.mark.parametrize("model", ["s2.1-pro", "s3-pro", "s2.1-pro-free", "transcribe-1-pro"])
 def test_named_sentence_is_the_gateway_sentence(monkeypatch, operator, status, body, model):
     """Every name points at the English bundle sentence equal to the gateway's own base text, so a translation of that
     entry says what the gateway said."""

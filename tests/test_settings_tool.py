@@ -109,6 +109,8 @@ def test_model_policy_matches_command(config):
         assert result["success"] and result["model"] == "s2.1-pro"
         assert result["model_message"] == "This profile's policy uses paid s2.1-pro instead of s2.1-pro-free."
         assert commands.handle("model s2.1-pro-free") == "Saved. This profile's policy uses paid s2.1-pro instead of s2.1-pro-free."
+        s3 = call("set_model", model="s3-pro")
+        assert s3["success"] and s3["changed"] and s3["model"] == "s3-pro" and "model_message" not in s3
 
 
 def test_names_crud_validation_and_cap(config):

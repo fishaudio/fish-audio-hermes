@@ -277,6 +277,15 @@ def test_explicit_free_choice_after_end_gets_warning_without_wallet_notice(confi
     assert "no API credit" not in reply and data["tts"]["fish-audio"]["model"] == "s2.1-pro-free"
 
 
+def test_model_s3_pro_selection_is_written(config):
+    data, saves, _ = config
+    with respx.mock(assert_all_called=True) as mock:
+        assert commands.handle("model s3-pro") == "Saved."
+        assert not mock.calls
+    assert data["tts"]["fish-audio"]["model"] == "s3-pro"
+    assert len(saves) == 1 and saves[0]["tts"]["fish-audio"]["model"] == "s3-pro"
+
+
 def test_model_drama_3_selection_is_written(config):
     data, saves, _ = config
     with respx.mock(assert_all_called=True) as mock:
@@ -380,7 +389,7 @@ def test_operator_chat_hides_account_without_wallet_reads(config, monkeypatch):
     assert "Account: managed by the operator" in output
     assert "API credit" not in output and "Plan:" not in output and "paid account" not in output
     # The unpinned default follows the operator's wallet, which status doesn't read: it names no model.
-    assert "Model: Fish default (operator managed)" in output and "s2.1-pro" not in output
+    assert "Model: Fish default (operator managed)" in output and "s2.1-pro" not in output and "s3-pro" not in output
     config[0]["tts"]["fish-audio"] = {"model": "s1"}
     assert "Model: s1 (operator managed)" in commands.status()
     assert commands.handle("model s2.1-pro-free") == "Saved."

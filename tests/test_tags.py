@@ -21,11 +21,15 @@ def test_fixed_tag_round_trip(tag):
     text = f"[{tag}] Hello."
     assert adapt_tags(text, "S1") == f"({tag}) Hello."
     assert adapt_tags(adapt_tags(text, "S1"), "S2") == text
+    assert adapt_tags(adapt_tags(text, "S1"), "S3") == text
 
 
 def test_parentheticals_boundaries_and_case():
     text = "(Happy) Hello (see below) and (sad). (SAD) Bye!\n(soft tone) Quiet."
-    assert adapt_tags(text, "S2") == "[Happy] Hello (see below) and (sad). [SAD] Bye!\n[soft tone] Quiet."
+    expected = "[Happy] Hello (see below) and (sad). [SAD] Bye!\n[soft tone] Quiet."
+    assert adapt_tags(text, "S2") == expected
+    assert adapt_tags(text, "S3") == expected
+    assert adapt_tags(text, "Drama") == text
 
 
 def test_free_form_removed_once_without_logging_text(caplog):
@@ -37,7 +41,7 @@ def test_free_form_removed_once_without_logging_text(caplog):
     assert adapt_tags(long, "S1") == long
 
 
-@pytest.mark.parametrize("family", ["S1", "S2"])
+@pytest.mark.parametrize("family", ["S1", "S2", "S3"])
 def test_markup_and_backticks_are_opaque(family):
     text = "<|speaker:0|> `<|[happy](sad)|>` ```\n[happy] (sad)\n``` <|[happy]|>"
     assert adapt_tags(text, family) == text

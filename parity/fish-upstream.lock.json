@@ -1,6 +1,6 @@
 {
-  "fetch_date": "2026-11-18",
-  "fish_audio_api_skill_sha256": "ae871b04b28045d716b57d3d903500a4958b96d4747155dbc95481caacdf6027",
+  "fetch_date": "2026-11-25",
+  "fish_audio_api_skill_sha256": "b46ecf7830c6488b7d4b56c5bd53cf4f355ef512748af2371c48f9c241905787",
   "known_model_ids": [
     "drama-3",
     "s1",
@@ -15,15 +15,23 @@
     "voice-design-1"
   ],
   "changelog_labels_seen": [
+    "Background sound and voice effects for Voice Agents",
     "Drama 3",
+    "Drama 3 audio infill",
+    "Exposed API key revocation",
     "Fish Audio S1",
     "Fish Audio S1 retirement",
     "Fish Audio S2",
     "Fish Audio S2.1 Pro",
+    "Live 3 full-duplex model",
     "More normalization languages",
+    "Pronunciation dictionaries API, alias rules, and IPA on Drama 3",
+    "Realtime Speech to Text (`transcribe-stream-1`)",
     "Swedish and Malay normalization",
     "TTS language field",
     "Transcribe 1 Pro",
+    "Voice Agents",
+    "Voice Agents React Native SDK and widget",
     "transcribe-1 retirement",
     "v0.2.0",
     "v1.0.0",
@@ -72,6 +80,6 @@
     "transcribe-1": "\\$0.36 / audio hour",
     "transcribe-stream-1": "\\$0.36 / session hour"
   },
-  "fish_agent_plugin_version": "0.1.7",
+  "fish_agent_plugin_version": "0.1.8",
   "fish_mcp_config_sha256": "7761b377319d78aa99d23c8cc9832b5618247979728cfb3187b60b0e3de60a3f"
 }

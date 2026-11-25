@@ -70,6 +70,23 @@ def test_speak_invalid_delivery_before_any_fish_call(monkeypatch, delivery):
 
 
 @pytest.mark.parametrize("speakers", [None, [VOICE, "b" * 32]])
+def test_speak_s3_pro_model_header_and_tags(speakers):
+    assert "s3-pro" in tools.SCHEMAS["fish_speak"]["model"]["enum"]
+    text = "<|speaker:0|>[excited] Hello! (sad) Bye."
+    args = {"text": text, "model": "s3-pro", "voice": VOICE}
+    if speakers:
+        args["speakers"] = speakers
+    with respx.mock(assert_all_called=True) as mock:
+        route = mock.post(BASE + "/v1/tts").respond(content=b"OggSsynthetic")
+        result = call(tools.fish_speak, **args)
+        assert result["success"] and result["model"] == "s3-pro"
+        request = route.calls.last.request
+        assert request.headers["model"] == "s3-pro"
+        body = json.loads(request.content)
+        assert body["text"] == "<|speaker:0|>[excited] Hello! [sad] Bye." and body["reference_id"] == (speakers or VOICE)
+
+
+@pytest.mark.parametrize("speakers", [None, [VOICE, "b" * 32]])
 def test_speak_drama_3_model_header_and_tags(speakers):
     assert "drama-3" in tools.SCHEMAS["fish_speak"]["model"]["enum"]
     text = "<|speaker:0|>[sound relieved] <soft>Hello</soft> [sigh][pause]"
@@ -115,7 +132,7 @@ def test_speak_multi_pronunciations():
         assert result["success"] and "segments" not in result and "v0.2" not in result["note"]
     with respx.mock(assert_all_called=True) as mock:
         result = call(tools.fish_speak, text="hello", speakers=[VOICE, VOICE], model="s1")
-        assert not result["success"] and "s2.1-pro" in result["error"]
+        assert not result["success"] and "s3-pro" in result["error"] and "s2.1-pro" in result["error"]
         assert not mock.calls
 
 

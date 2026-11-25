@@ -23,6 +23,7 @@ def config(monkeypatch):
 
 @pytest.mark.parametrize("nested,call,allow,expected", [
     ("s1", "s2-pro", True, "s1"), ("bad", "s2-pro", True, "s2-pro"),
+    ("s3-pro", "s2-pro", True, "s3-pro"),
     (None, "s2.1-pro-free", False, "s2.1-pro"), (None, None, False, "s2.1-pro"),
 ])
 def test_decided_models_do_not_request_wallet(config, monkeypatch, nested, call, allow, expected):
@@ -83,7 +84,7 @@ def test_explicit_nested_free_is_forbidden_once_per_process(config, monkeypatch,
 
 
 @pytest.mark.parametrize("call,allow,expected", [
-    ("s2.1-pro", True, "s2.1-pro"), ("s2-pro", True, "s2-pro"),
+    ("s3-pro", True, "s3-pro"), ("s2.1-pro", True, "s2.1-pro"), ("s2-pro", True, "s2-pro"),
     ("s2.1-pro-free", False, "s2.1-pro"), ("invalid", True, "s1"),
 ])
 def test_explicit_model_preference_preserves_policy(config, monkeypatch, call, allow, expected):

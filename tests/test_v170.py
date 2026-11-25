@@ -202,7 +202,7 @@ def test_error_hint_prefix(empty_account, clock):
     for day, phase in DATES:
         clock(day)
         for status in (400, 402, 403, 429):
-            for model in ("s2.1-pro-free", "s2.1-pro", "s2-pro"):
+            for model in ("s2.1-pro-free", "s2.1-pro", "s3-pro", "s2-pro"):
                 for defaulted in (False, True):
                     message = str(errors.response_error(status, model=model, defaulted=defaulted))
                     has_prefix = phase == "ended" and model == "s2.1-pro-free" and status in (402, 403, 429)
@@ -230,9 +230,9 @@ def test_picker_names_say_when_the_free_period_ended(env, clock):
         clock(day, env.api._fa("models"))
         want = "S2.1 Pro Free (free period ended)" if phase == "ended" else "S2.1 Pro Free"
         rows = {row["id"]: row["display"] for row in tts.FishAudioTTSProvider().list_models()}
-        assert rows["s2.1-pro-free"] == want and rows["s2.1-pro"] == "S2.1 Pro"
+        assert rows["s2.1-pro-free"] == want and rows["s3-pro"] == "S3 Pro" and rows["s2.1-pro"] == "S2.1 Pro"
         shown = {row["id"]: row["display"] for row in env.get("/settings")["models"]}
-        assert shown["s2.1-pro-free"] == want and shown["s2.1-pro"] == "S2.1 Pro"
+        assert shown["s2.1-pro-free"] == want and shown["s3-pro"] == "S3 Pro" and shown["s2.1-pro"] == "S2.1 Pro"
     assert next(row for row in models.MODELS if row["id"] == "s2.1-pro-free")["display"] == "S2.1 Pro Free"
 
 

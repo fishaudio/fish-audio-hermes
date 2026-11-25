@@ -18,7 +18,7 @@ const SETTINGS: SettingsResponse = {
   voice: A,
   model: 's2.1-pro',
   speed: 1.0,
-  models: [{ id: 's2.1-pro', display: 'S2.1 Pro', deprecated: false }, { id: 's1', display: 'S1 (deprecated)', deprecated: true }],
+  models: [{ id: 's2.1-pro', display: 'S2.1 Pro', deprecated: false }, { id: 's3-pro', display: 'S3 Pro', deprecated: false }, { id: 's1', display: 'S1 (deprecated)', deprecated: true }],
   aliases: [{ name: 'narrator', voice: A }],
   managed: []
 }
@@ -282,7 +282,7 @@ describe('settings page writes', () => {
     expect((screen.getByRole('button', { name: en.settings.saveSpeed }) as HTMLButtonElement).disabled).toBe(false)
   })
 
-  it.each([['S1 (deprecated)', 's1'], [en.settings.defaultModel, null]])('choosing %s posts exactly {model: %j}', async (label, model) => {
+  it.each([['S3 Pro', 's3-pro'], ['S1 (deprecated)', 's1'], [en.settings.defaultModel, null]])('choosing %s posts exactly {model: %j}', async (label, model) => {
     const notify = vi.spyOn(host, 'notify')
     const { writes } = mount(gateway(SETTINGS, async () => ({ ...SETTINGS, model })))
     await flush()

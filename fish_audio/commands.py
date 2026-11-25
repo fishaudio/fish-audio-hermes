@@ -208,7 +208,7 @@ def set_model(requested, key, base):
     write_config(lambda cfg: cfg.setdefault("tts", {}).setdefault("fish-audio", {}).__setitem__("model", rest))
     model, _ = settings.resolve_model(rest, key=key, base_url=base)
     if rest == "s2.1-pro-free" and model != rest:
-        return {"model": model, "message": "Saved. This profile's policy uses paid s2.1-pro instead of s2.1-pro-free."}
+        return {"model": model, "message": f"Saved. This profile's policy uses paid {model} instead of s2.1-pro-free."}
     if requested != rest:
         return {"model": model, "message": "drama-3-preview was Fish's preview id; using drama-3."}
     if rest == "s1":

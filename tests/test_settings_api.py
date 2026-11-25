@@ -10,6 +10,7 @@ from test_dashboard_api import env, VOICE, OTHER, MP3
 def expected(env, **overrides):
     return {"ok": True, "voice": None, "model": "s2.1-pro", "models": [
         {"id": "s2.1-pro", "display": "S2.1 Pro", "deprecated": False},
+        {"id": "s3-pro", "display": "S3 Pro", "deprecated": False},
         {"id": "s2.1-pro-free", "display": "S2.1 Pro Free", "deprecated": False},
         {"id": "s2-pro", "display": "S2 Pro", "deprecated": False},
         {"id": "s1", "display": "S1 (deprecated)", "deprecated": True},
@@ -23,7 +24,7 @@ def test_settings_exact_offline_operator_and_profile(env):
         transport = env.active().config["plugins"]["entries"]["fish-audio"]["settings"]
         transport.update(operator_account=True, allow_free_model=False)
         rows = expected(env)["models"]
-        rows.pop(1)
+        rows.pop(2)
         assert env.get("/settings") == expected(env, models=rows)
         assert not mock.calls
     env.switch("b")
@@ -44,6 +45,12 @@ def test_settings_report_what_synthesis_uses(env, voice, model, allow_free, show
     assert env.active().config["tts"]["fish-audio"]["model"] == model
     assert (state["voice"], state["model"]) == shown
     assert state["model"] is None or state["model"] in {row["id"] for row in state["models"]}
+
+
+def test_settings_s3_pro_listed_and_saved(env):
+    assert {"id": "s3-pro", "display": "S3 Pro", "deprecated": False} in env.get("/settings")["models"]
+    assert env.post("/settings", model="s3-pro") == expected(env, model="s3-pro")
+    assert env.active().config["tts"]["fish-audio"]["model"] == "s3-pro"
 
 
 @pytest.mark.parametrize("model", ["drama-3", "drama-3-preview"])

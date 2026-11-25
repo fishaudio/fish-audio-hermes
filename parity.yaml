@@ -979,6 +979,7 @@ entries:
   - tests/test_tools.py::test_speak_explicit_model_overrides_nested[s2.1-pro-True-s2.1-pro-None]
   - tests/test_tools.py::test_speak_explicit_model_overrides_nested[s2-pro-True-s2-pro-speakers1]
   - tests/test_tools.py::test_speak_explicit_model_overrides_nested[s2.1-pro-free-False-s2.1-pro-None]
+  - tests/test_tools.py::test_speak_s3_pro_model_header_and_tags[speakers1]
   - tests/integration/test_multiprofile_isolation.py::test_two_profile_scope_isolation_and_unscoped_fail_closed
   spec:
     type: string
@@ -988,6 +989,7 @@ entries:
     - s2-pro
     - s2.1-pro
     - s2.1-pro-free
+    - s3-pro
     required: false
 - path: /v1/tts
   method: post
@@ -1651,6 +1653,7 @@ entries:
     - s2-pro
     - s2.1-pro
     - s2.1-pro-free
+    - s3-pro
     required: false
 - path: /v1/tts/stream/with-timestamp
   method: post
@@ -2418,6 +2421,7 @@ entries:
     - s2-pro
     - s2.1-pro
     - s2.1-pro-free
+    - s3-pro
     required: false
   reason: The plugin does not connect to /v1/tts/live/with-timestamp, so it never sends this header there. PCM streaming sends the same model header to /v1/tts/live; timestamp synthesis uses /v1/tts/stream/with-timestamp (SSE). Binding tests from either other endpoint would not verify this field on the mapped endpoint.
 - path: /v1/tts/live/with-timestamp

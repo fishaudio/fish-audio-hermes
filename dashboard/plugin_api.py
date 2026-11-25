@@ -298,7 +298,7 @@ def get_settings():
     model = _fa("models").canonical_model(model) if isinstance(model, str) else None
     model = model if model in _fa("models").MODEL_IDS else None
     if model == "s2.1-pro-free" and not allow_free:
-        model = "s2.1-pro"
+        model = _fa("models").DEFAULT_MODEL
     return {"ok": True, "voice": voice if _fa("tool_support").voice_id(voice) else None, "model": model,
             "speed": max(0.5, min(2.0, speed)) if settings._number(speed) else 1.0,
             "models": [{"id": row["id"], "display": _fa("models").display(row), "deprecated": row.get("deprecated", False)}
