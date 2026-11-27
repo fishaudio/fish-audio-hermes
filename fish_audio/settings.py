@@ -9,7 +9,7 @@ import unicodedata
 from pathlib import Path
 from urllib.parse import urlsplit
 
-from .models import MODEL_IDS, canonical_model, free_model_phase
+from .models import DEFAULT_MODEL, MODEL_IDS, canonical_model, free_model_phase
 from .account import cached_wallet
 from .errors import BILLING_URL
 
@@ -23,14 +23,14 @@ def free_model_notice(today=None):
     if phase == "active":
         return ("Using Fish Audio's free s2.1-pro-free model (free until 30 November 2026; "
                 "Fish may use free-tier requests to improve its models). Top up at "
-                f"{BILLING_URL} to use s2.1-pro.")
+                f"{BILLING_URL} to use {DEFAULT_MODEL}.")
     if phase == "ending":
         return ("Using Fish Audio's free s2.1-pro-free model, free until 30 November 2026 (Fish may use free-tier requests "
                 f"to improve its models). To keep speaking after that, add API credit at {BILLING_URL}; "
-                "with credit the plugin uses s2.1-pro.")
+                f"with credit the plugin uses {DEFAULT_MODEL}.")
     return ("This Fish account has no API credit, so the plugin is using s2.1-pro-free, whose free period Fish announced "
             f"would end on 30 November 2026. If speech fails, add API credit at {BILLING_URL}; "
-            "with credit the plugin uses s2.1-pro.")
+            f"with credit the plugin uses {DEFAULT_MODEL}.")
 
 
 # Hermes loads distinct plugin modules per profile; a named logger is shared by
@@ -261,15 +261,15 @@ def resolve_model_source(call_model, *, key, base_url, prefer_call: bool = False
             if model == "s2.1-pro-free" and not allow_free:
                 if not getattr(_notice_logger, "_fish_policy_logged", False):
                     _notice_logger._fish_policy_logged = True
-                    logger.warning("allow_free_model is false; using s2.1-pro instead of s2.1-pro-free")
-                return "s2.1-pro", "configured"
+                    logger.warning("allow_free_model is false; using %s instead of s2.1-pro-free", DEFAULT_MODEL)
+                return DEFAULT_MODEL, "configured"
             return model, "configured"
     if not allow_free:
-        return "s2.1-pro", "policy"
+        return DEFAULT_MODEL, "policy"
     # A resolver invoked without a synthesis key must never perform a wallet request.
     wallet = cached_wallet(key, base_url) if key else None
     if wallet is None or wallet.credit > 0 or wallet.cumulative_top_up > 0 or wallet.has_free_credit is True:
-        return "s2.1-pro", "wallet"
+        return DEFAULT_MODEL, "wallet"
     phase = free_model_phase()
     if getattr(_notice_logger, "_fish_notice_logged", False) != phase:  # once per process per phase
         _notice_logger._fish_notice_logged = phase

@@ -388,6 +388,27 @@ def test_provider_language(paid, request):
         set_config(paid, before)
 
 
+@pytest.mark.row('A-TTS-S3-PRO')
+def test_s3_pro(paid, voice, request):
+    before = config(paid)
+    path = paid.out / 's3-pro.mp3'
+    try:
+        listed = paid.request('/api/plugins/fish-audio/settings')['models']
+        assert any(m['id'] == 's3-pro' for m in listed), f's3-pro missing from settings models: {listed!r}'
+        saved = paid.request('/api/plugins/fish-audio/settings', method='POST', body={'model': 's3-pro'})
+        assert saved['model'] == 's3-pro'
+        assert config(paid)['tts']['fish-audio']['model'] == 's3-pro'
+        result = core(paid, 'import json; from agent.tts_registry import get_provider; '
+                            'p = get_provider("fish-audio"); '
+                            f'r = p.synthesize("(happy) Hello from S3 Pro.", {str(path)!r}, voice={voice!r}, model="s3-pro"); '
+                            'print("ACCEPTANCE_RESULT=" + json.dumps({"result": str(r)}))')
+        assert path.stat().st_size > 0, 'provider wrote no audio for s3-pro'
+        metrics = audio(path)
+        evidence(request, paid, result, metrics)
+    finally:
+        set_config(paid, before)
+
+
 @pytest.mark.row('A-STT-1')
 def test_core_stt(paid, request):
     result = core(paid, f'import json; from tools.transcription_tools import transcribe_audio; print("ACCEPTANCE_RESULT=" + json.dumps(transcribe_audio({str(CORPUS)!r})))')

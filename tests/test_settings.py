@@ -53,6 +53,15 @@ def test_configured_drama_model_canonicalized(config, model):
         assert not mock.calls
 
 
+def test_configured_s3_pro_model_keeps_exact_id(config):
+    config[1]["model"] = "s3-pro"
+    with respx.mock(assert_all_called=True) as mock:
+        assert resolve()[0]["model"] == "s3-pro"
+        assert settings.resolve_model(None, key="", base_url=settings.DEFAULT_BASE_URL) == ("s3-pro", False)
+        assert settings.resolve_model_source("s3-pro", key="", base_url=settings.DEFAULT_BASE_URL, prefer_call=True) == ("s3-pro", "configured")
+        assert not mock.calls
+
+
 def test_default_and_free_policy(config):
     _, nested, transport = config
     assert resolve()[0]["model"] == "s2.1-pro"

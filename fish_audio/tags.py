@@ -22,7 +22,7 @@ _PROTECTED = re.compile(r"(`+)[\s\S]*?\1|<\|[\s\S]*?\|>|`+[\s\S]*$")
 
 
 def adapt_tags(text, family):
-    if family not in {"S1", "S2"}:
+    if family not in {"S1", "S2", "S3"}:
         return text
     removed = False
     if family == "S1":

@@ -1,8 +1,11 @@
 """Fish model capabilities in picker order."""
 from datetime import date, datetime, timezone
 
+DEFAULT_MODEL = "s2.1-pro"
+
 MODEL_CATALOG = [
     {"id": "s2.1-pro", "display": "S2.1 Pro", "family": "S2", "tag_style": "bracket", "multi_speaker": True, "free": False, "preview": False, "kind": "tts", "use": "Expressive speech", "usd": 15, "unit": "1,000,000 UTF-8 bytes"},
+    {"id": "s3-pro", "display": "S3 Pro", "family": "S3", "tag_style": "bracket", "multi_speaker": True, "free": False, "preview": False, "kind": "tts", "use": "Expressive speech", "usd": 15, "unit": "1,000,000 UTF-8 bytes"},
     {"id": "s2.1-pro-free", "display": "S2.1 Pro Free", "family": "S2", "tag_style": "bracket", "multi_speaker": True, "free": True, "preview": False, "ends": "2026-11-30", "kind": "tts", "use": "Expressive speech", "usd": 0, "unit": "1,000,000 UTF-8 bytes"},
     {"id": "s2-pro", "display": "S2 Pro", "family": "S2", "tag_style": "bracket", "multi_speaker": True, "free": False, "preview": False, "kind": "tts", "use": "Expressive speech", "usd": 15, "unit": "1,000,000 UTF-8 bytes"},
     {"id": "s1", "display": "S1 (deprecated)", "family": "S1", "tag_style": "paren", "multi_speaker": False, "free": False, "preview": False, "deprecated": True, "retires": "2026-12-31", "kind": "tts", "use": "Expressive speech", "usd": 15, "unit": "1,000,000 UTF-8 bytes"},
@@ -14,7 +17,7 @@ MODEL_CATALOG = [
 ]
 # TTS picker view of the single catalog; other model kinds never enter synthesis.
 MODELS = [row for row in MODEL_CATALOG if row["kind"] == "tts"]
-PRICE_AS_OF = "2026-11-09"
+PRICE_AS_OF = "2026-11-25"
 DRAMA3_LAUNCH_ENDS = datetime(2026, 12, 1, 8, 0, tzinfo=timezone.utc)
 FREE_PERIOD_ENDS = datetime(2026, 12, 1, 0, 0, tzinfo=timezone.utc)
 PRICE_SOURCE = "https://docs.fish.audio/developer-guide/models-pricing/pricing-and-rate-limits"
@@ -44,7 +47,7 @@ def display(row, today=None):
 def free_model_warning(today=None):
     if free_model_phase(today) == "ended":
         return ("s2.1-pro-free: Fish announced its free period would end on 30 November 2026, so Fish may refuse these requests or "
-                "serve and bill them as S2.1 Pro. Choose s2.1-pro.")
+                f"serve and bill them as S2.1 Pro. Choose {DEFAULT_MODEL}.")
     return None
 
 

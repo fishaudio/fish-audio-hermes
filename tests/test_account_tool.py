@@ -61,7 +61,8 @@ def test_catalog_is_single_source(config):
     rows = {r["id"]: r for r in result["models"]}
     assert set(rows) == models.MODEL_IDS | {"transcribe-1-pro", "transcribe-1", "transcribe-stream-1", "voice-design-1"}
     assert all(any(row is item for item in models.MODEL_CATALOG) for row in models.MODELS)
-    assert all(r["price_as_of"] == "2026-11-09" and r["source"] == models.PRICE_SOURCE for r in rows.values())
+    assert all(r["price_as_of"] == "2026-11-25" and r["source"] == models.PRICE_SOURCE for r in rows.values())
+    assert rows["s3-pro"]["price"] == {"usd": 15, "unit": "1,000,000 UTF-8 bytes"}
     assert rows["transcribe-1-pro"]["price"]["usd"] == .36
     assert rows["transcribe-stream-1"]["kind"] == "realtime_stt" and rows["voice-design-1"]["price"]["usd"] == .01
     assert rows["s2.1-pro-free"]["ends"] == "2026-11-30"
@@ -72,6 +73,9 @@ def test_utf8_and_normalized_estimate(config):
     assert result["success"] and result["billable_bytes"] == 9
     assert result["usd_estimate"] == pytest.approx(9 * 15 / 1_000_000)
     assert result["unit_price"]["usd"] == 15 and account_tool.NOTE in result["note"]
+    s3 = call("estimate", text="(excited) 日本語", model="s3-pro")
+    assert s3["success"] and s3["billable_bytes"] == len("[excited] 日本語".encode())
+    assert s3["usd_estimate"] == pytest.approx(len("[excited] 日本語".encode()) * 15 / 1_000_000)
     assert call("estimate", text="[excited] 日本語", model="s1")["billable_bytes"] == len("(excited) 日本語".encode())
     assert call("estimate", text="[unsupported] 日本語", model="s1")["billable_bytes"] == len(" 日本語".encode())
 

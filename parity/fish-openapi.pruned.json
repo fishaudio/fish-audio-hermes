@@ -4509,7 +4509,8 @@
                 "s2-pro",
                 "s2.1-pro",
                 "s2.1-pro-free",
-                "drama-3"
+                "drama-3",
+                "s3-pro"
               ],
               "title": "Model",
               "type": "string"
@@ -4694,7 +4695,8 @@
                 "s2-pro",
                 "s2.1-pro",
                 "s2.1-pro-free",
-                "drama-3"
+                "drama-3",
+                "s3-pro"
               ],
               "title": "Model",
               "type": "string"
@@ -5655,7 +5657,8 @@
                 "s2-pro",
                 "s2.1-pro",
                 "s2.1-pro-free",
-                "drama-3"
+                "drama-3",
+                "s3-pro"
               ],
               "title": "Model",
               "type": "string"
@@ -6069,7 +6072,7 @@
           {
             "in": "query",
             "name": "title",
-            "description": "Title to filter models",
+            "description": "Search term. Matches the voice title, description and tags; with self, the title only.",
             "required": false,
             "schema": {
               "anyOf": [
@@ -10883,7 +10886,7 @@
   },
   "x-source": {
     "url": "https://docs.fish.audio/api-reference/openapi.json",
-    "sha256": "1a10146e355d006428025bd15a71ff2baa22d9141d7a56e71b9690113a81ef0f",
-    "fetch_date": "2026-11-18"
+    "sha256": "58e903dea59ff64bc051ae17da89056955ee60426a98b0ff91d6e48b72d94050",
+    "fetch_date": "2026-11-25"
   }
 }

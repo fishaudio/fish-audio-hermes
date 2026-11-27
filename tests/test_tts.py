@@ -7,7 +7,7 @@ import respx
 from decimal import Decimal
 
 from fish_audio import media, settings, tts
-from fish_audio.models import MODELS
+from fish_audio.models import DEFAULT_MODEL, MODELS
 from fish_audio.account import Wallet
 
 
@@ -21,7 +21,8 @@ def test_provider_surface_and_no_network(monkeypatch):
     assert provider.name == "fish-audio" and provider.display_name == "Fish Audio"
     assert provider.default_voice() is None and provider.voice_compatible is True
     assert provider.list_models() == [{k: v for k, v in row.items() if k not in {"kind", "use", "usd", "unit"}} for row in MODELS]
-    assert [m["id"] for m in MODELS] == ["s2.1-pro", "s2.1-pro-free", "s2-pro", "s1", "drama-3"]
+    assert [m["id"] for m in MODELS] == ["s2.1-pro", "s3-pro", "s2.1-pro-free", "s2-pro", "s1", "drama-3"]
+    assert MODELS[0]["id"] == DEFAULT_MODEL == "s2.1-pro"
     assert provider.get_setup_schema() == {"name": "Fish Audio", "badge": "free model",
         "tag": "Expressive voices, voice cloning, 80+ languages", "env_vars": [{"key": "FISH_API_KEY",
         "prompt": "Fish Audio API key", "url": "https://fish.audio/app/api-keys"}]}
@@ -106,6 +107,8 @@ def test_resolved_family_and_free_metadata(monkeypatch, tmp_path):
     assert metadata["fish_audio_notice"] == settings.free_model_notice()
     p.synthesize("[happy] Hi [free-form]", str(tmp_path / "out.mp3"), model="s1")
     assert calls[-1][0]["text"] == "(happy) Hi "
+    p.synthesize("(happy) Hi [free-form]", str(tmp_path / "out.mp3"), model="s3-pro")
+    assert calls[-1][0]["text"] == "[happy] Hi [free-form]"
 
 
 def test_static_surfaces_never_query_wallet(monkeypatch):
@@ -115,7 +118,7 @@ def test_static_surfaces_never_query_wallet(monkeypatch):
     monkeypatch.setattr(tts, "fish_api_key", lambda: "test-key")
     provider = tts.FishAudioTTSProvider()
     assert provider.is_available()
-    assert provider.default_model() == "s2.1-pro"
+    assert provider.default_model() == DEFAULT_MODEL == "s2.1-pro"
     assert provider.get_setup_schema() and provider.list_models()
 
 

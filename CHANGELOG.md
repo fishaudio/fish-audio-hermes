@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+## 1.15.0 — 2026-11-27
+
+Adds Fish Audio's `s3-pro` TTS model (`S3 Pro`); the default paid model stays `s2.1-pro`.
+
+- **S3 Pro (`s3-pro`):** adds Fish Audio's `s3-pro` TTS model (`S3 Pro`, multi-speaker, bracket emotion cues, $15 / 1M UTF-8 bytes) across `/fish model s3-pro`, `fish_speak`, `fish_settings`, `fish_account`, the TTS provider, and the Desktop settings page (the default paid model remains unchanged at `s2.1-pro`), and refreshes Fish OpenAPI and drift pins.
+
 ## 1.14.2 — 2026-11-21
 
 Official Fish Audio repository release; no behaviour changes.

@@ -19,7 +19,7 @@ also supported. For dialogue, `speakers` sends a `reference_id` array; use `<|sp
 Send angle-bracket tags through `fish_speak`: Hermes's `text_to_speech` cleanup breaks closing tags such as
 `</whisper>`. Square-bracket directions and sounds survive it.
 
-S2 models use square brackets. The documented groups are:
+S3 and S2 models use square brackets. The documented groups are:
 
 - **Basic Emotions (24 expressions):** `[happy]`, `[sad]`, `[angry]`, `[excited]`, `[calm]`, `[nervous]`, `[confident]`, `[surprised]`, `[satisfied]`, `[delighted]`, `[scared]`, `[worried]`, `[upset]`, `[frustrated]`, `[depressed]`, `[empathetic]`, `[embarrassed]`, `[disgusted]`, `[moved]`, `[proud]`, `[relaxed]`, `[grateful]`, `[curious]`, `[sarcastic]`.
 
@@ -31,7 +31,7 @@ S2 models use square brackets. The documented groups are:
 
 - **Special Effects:** `[audience laughing]`, `[background laughter]`, `[crowd laughing]`, `[break]`, `[long-break]`.
 
-S2 also allows free-form cues such as `[very excited]`. For S1, use parentheses such as `(happy)`;
+S3 and S2 also allow free-form cues such as `[very excited]`. For S1, use parentheses such as `(happy)`;
 the plugin converts known bracket cues automatically. Keep emotion cues at the beginning of a sentence.
 Tone and sound effects can occur anywhere; put `[emphasis]` immediately before the emphasized words.
 Use **at most 3 cues per sentence**. Cues direct performance and should not be spoken as words.

@@ -50,6 +50,9 @@ class FishAudioTTSProvider(TTSProvider):
     def list_models(self):  # The provider list stays the model picker view; prices live in fish_account.
         return [dict({k: v for k, v in row.items() if k not in PRICE_KEYS}, display=models.display(row)) for row in MODELS]
 
+    def default_model(self):
+        return models.DEFAULT_MODEL
+
     def default_voice(self):
         return None
 

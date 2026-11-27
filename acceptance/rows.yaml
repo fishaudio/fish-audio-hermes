@@ -27,6 +27,7 @@
   {"id": "A-TTS-1", "title": "core TTS mp3", "layer": "a", "hosts": ["upstream", "evaos"], "min_plugin": "1.0.0", "min_hermes": "both hosts", "required": true, "billed": "cents", "matrix_ref": "E1"},
   {"id": "A-TTS-ALIGN", "title": "fish_speak timestamps writes a complete alignment JSON next to the audio", "layer": "a", "hosts": ["upstream", "evaos"], "min_plugin": "1.13.0", "min_hermes": "both hosts", "required": true, "billed": "cents"},
   {"id": "A-TTS-LANG", "title": "TTS with a language tag", "layer": "a", "hosts": ["upstream", "evaos"], "min_plugin": "1.8.0", "min_hermes": "both hosts", "required": true, "billed": "cents", "matrix_ref": "E1"},
+  {"id": "A-TTS-S3-PRO", "title": "s3-pro is selectable and synthesizes audio", "layer": "a", "hosts": ["upstream", "evaos"], "min_plugin": "1.15.0", "min_hermes": "both hosts", "required": true, "billed": "cents", "matrix_ref": "E1"},
   {"id": "A-TTS-2", "title": "core TTS ogg", "layer": "a", "hosts": ["upstream", "evaos"], "min_plugin": "1.0.0", "min_hermes": "both hosts", "required": true, "billed": "cents", "matrix_ref": "E1"},
   {"id": "A-TTS-3", "title": "core TTS wav", "layer": "a", "hosts": ["upstream", "evaos"], "min_plugin": "1.0.0", "min_hermes": "both hosts", "required": true, "billed": "cents", "matrix_ref": "E1"},
   {"id": "A-TTS-4", "title": "provider writes mp3", "layer": "a", "hosts": ["upstream", "evaos"], "min_plugin": "1.0.0", "min_hermes": "both hosts", "required": true, "billed": "cents", "matrix_ref": "E1"},

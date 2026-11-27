@@ -19,7 +19,7 @@ def current(key, base):
               "names": settings.aliases(), "speech_provider": provider, "fish_is_speech_provider": fish,
               "transcription_provider": stt.get("provider") or "unset"}
     if operator and source == "wallet":
-        result.update(model_source="fallback", note="Wallet default is not read; showing s2.1-pro.")
+        result.update(model_source="fallback", note=f"Wallet default is not read; showing {models.DEFAULT_MODEL}.")
     if not fish:
         # use_result/use_message own the provider and operator rules; mirror their facts without switching it.
         result["note"] = ((result.get("note", "") + " ") if result.get("note") else "") + (f"Saved for Fish Audio, but this agent currently speaks with {provider}. "

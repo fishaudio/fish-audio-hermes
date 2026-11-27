@@ -27,7 +27,7 @@ def estimate(args, *, operator=False, now=None):
         model, source = settings.resolve_model_source(requested, key="", base_url="", prefer_call=True)
         model = models.effective_model(model, now.date() if now else None)
         if source == "wallet":
-            notes.append("Wallet default was not read; using s2.1-pro.")
+            notes.append(f"Wallet default was not read; using {models.DEFAULT_MODEL}.")
         if field == "text":
             require(isinstance(value, str), "text must be a string.")
             row = next(row for row in models.MODELS if row["id"] == model)
